@@ -1,0 +1,24 @@
+  ___
+ /   \
+ \___    __            _   __   __
+     \  /  \  |   |  |/   /    /__\
+ \___/  \__/  \__/\  |    \__  \__
+ ----------------------------------
+
+(This file contains information from where the datasets for this project were procured)
+
+
+kaggle.com
+was used to collect the following datasets:
+
+
+DATASET 1 - MOVIE GENERAL DATA
+movies.csv
+https://www.kaggle.com/datasets/abdallahwagih/movies
+
+
+DATASET 2 - MOVIE RATINGS
+movie_ratings.data
+movie_titles.txt 
+(in website is presented as 'movie_titles.csv' but I was unable to download this file.)
+https://www.kaggle.com/datasets/vrajm1209/movie-ratings
