@@ -7,6 +7,7 @@
 
 (This file contains information on the file cleaning process)
 
+
 Phase I: Unclean
 -----------------------------
 
@@ -27,3 +28,22 @@ I intend to make a separate python script to create a new file using data from t
 At this stage, I have already noticed that names could be a connecting factor for the datasets.
 We will have to "normalize" the name structure before we can connect them, first.
 (for example, some datasets combine movie titles with release year, or do the whole 'Lastname, Firstname' structure.)
+
+
+Phase II: Cleaning
+-----------------------------
+
+1. "Normalizing"
+* Named both files using snake_case and made the names more distinctive,
+* Converted the {.xls} into a {.csv} file so they would be the same type,
+I could technically make everything consistent by hand, but I realize it would be simplest to have {file_cleaner.py} normalize the data for me.
+
+2. Patterns
+The name alone might not be enough to correctly compare both files. I think both the name and the year, however, would be sufficient.
+{movie_data.csv} doesn't provide the year alone (instead giving YYYY-MM-DD), 
+  so we have to splice the string it does provide for the first four characters in order to get it.
+
+3. Combination
+Ironically, I think it would be easiest to make the merged file a {.json} instead of a {.csv} becasue I have more experience with {.json}, 
+  and I know it can be converted very easily / directly into a Python list or dictionary.
+
