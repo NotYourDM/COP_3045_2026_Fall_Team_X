@@ -13,12 +13,10 @@ was used to collect the following datasets:
 
 
 DATASET 1 - MOVIE GENERAL DATA
-movies.csv
+{movies.csv}
 https://www.kaggle.com/datasets/abdallahwagih/movies
 
 
 DATASET 2 - MOVIE RATINGS
-movie_ratings.data
-movie_titles.txt 
-(in website is presented as 'movie_titles.csv' but I was unable to download this file.)
-https://www.kaggle.com/datasets/vrajm1209/movie-ratings
+{Movie-Ratings.xls}
+https://www.kaggle.com/datasets/trpearce/movie-ratings?select=Movie-Ratings.csv
