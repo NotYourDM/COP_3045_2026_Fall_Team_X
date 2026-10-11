@@ -6,3 +6,24 @@
  ----------------------------
 
 (This file contains information on the file cleaning process)
+
+Phase I: Unclean
+-----------------------------
+
+I think the file cleaning process can be separated into three stages:
+
+1. "Normalize" the data:
+In STEM, 'normalizing' tends to mean putting something in a consistent format. 
+When we put both datasets in the same format, connecting them should be much easier,
+
+2. Find patterns,
+This step is simplest. We just have to find whatever the connection is between the datasets in order to merge them.
+
+3. Combine data by writing to a new file,
+Modifying old files to combine the data is messy.
+There's a reason we use an intermediary variable when we want to exchange the values in two other variables.
+I intend to make a separate python script to create a new file using data from the old files.
+
+At this stage, I have already noticed that names could be a connecting factor for the datasets.
+We will have to "normalize" the name structure before we can connect them, first.
+(for example, some datasets combine movie titles with release year, or do the whole 'Lastname, Firstname' structure.)
