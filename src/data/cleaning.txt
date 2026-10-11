@@ -46,4 +46,6 @@ The name alone might not be enough to correctly compare both files. I think both
 3. Combination
 Ironically, I think it would be easiest to make the merged file a {.json} instead of a {.csv} becasue I have more experience with {.json}, 
   and I know it can be converted very easily / directly into a Python list or dictionary.
-
+A very rudimentary data merger was created in {file_cleaner.py}.
+As of the time of writing, it was able to pair 478 movies out of the 562 total in dataset 1 (85% succeeded).
+Dataset 2 has ~4500 movies (so only ~10% succeeded), but since dataset 2 has so much more than dataset 1 this percentage isn't really relevant.
