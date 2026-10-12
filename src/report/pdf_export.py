@@ -3,6 +3,8 @@ from fpdf import FPDF
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+import src.data.data_merger as data_merger
+
 PATH : str = "src/report/"
 
 def make_pdf(path : str, df : pandas.DataFrame, include : dict[str, bool]) -> None:
@@ -18,7 +20,34 @@ def make_pdf(path : str, df : pandas.DataFrame, include : dict[str, bool]) -> No
     pdf.ln(10)
 
     if include["merge"]:
-        pass
+        input("Adding merge info...")
+        pdf.set_font("Times", "B", 15)
+        pdf.cell(0, 30, "Dataset Merge Process")
+        pdf.ln(30)
+
+        pdf.set_font("Times", "", 9)
+        pdf.cell(0, 8, "Datasets {movie_info.csv} and {movie_ratings.csv} were merged into {movie_data.csv}.")
+        pdf.ln(5)
+        successes, failures, percentage, headers = data_merger.get_merge_stats()
+        pdf.cell(0, 8, f"A total of {successes} movies were successfully merged.")
+        pdf.ln(5)
+        pdf.cell(0, 8, f"A total of {failures} movies were unable to be matched.")
+        pdf.ln(5)
+        pdf.cell(0, 8, f"({percentage:.2f}%)")
+        pdf.ln(5)
+
+        pdf.cell(0, 8, "Merged Categories:")
+        pdf.ln(10)
+
+        for i in range(len(headers)):
+            pdf.cell(0, 8, headers[i])
+            pdf.ln(5)
+
+        pdf.add_page()
+        input("Merge info complete.")
+
+
+
 
     if include["clean"]:
         input("Adding cleanliness report...")
@@ -31,7 +60,7 @@ def make_pdf(path : str, df : pandas.DataFrame, include : dict[str, bool]) -> No
              [df.shape[0], df.shape[1], df.duplicated().sum(), df.isna().sum().sum()])
         )
 
-        df_to_pdf_table(clean_check, pdf, "", 5, 70)
+        df_to_pdf_table(clean_check, pdf, "", 5, 50)
         pdf.add_page()
         input("Cleanliness complete.")
 
@@ -41,8 +70,7 @@ def make_pdf(path : str, df : pandas.DataFrame, include : dict[str, bool]) -> No
         pdf.cell(0, 30, "Summary Statistics")
         pdf.ln(5)
 
-        pdf.set_font("Times", "", 9)
-        df_to_pdf_table(df.describe(), pdf, "", 5, 70)
+        df_to_pdf_table(df.describe(), pdf, "", 5, 50)
         pdf.add_page()
         input("Summary complete.")
 
@@ -96,6 +124,7 @@ def df_to_pdf_table(df : pandas.DataFrame, pdf : FPDF, name : str = "", x : int 
 
     if (x != -1) and (y != -1):
         pdf.set_xy(x, y)
+    pdf.set_font("Times", "", 9)
     
     with pdf.table(text_align="CENTER") as table:
         for df_row in rows:

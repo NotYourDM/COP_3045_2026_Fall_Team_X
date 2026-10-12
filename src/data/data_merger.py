@@ -4,6 +4,11 @@ PATH = "src/data/"
 file_to_read_1 = "movie_ratings.csv"
 file_to_read_2 = "movie_info.csv"
 
+successes : int
+failures : int
+merge_percent : float
+merge_headers : list[str]
+
 
 def read_file(path : str) -> list:
     input(f"Starting to read {path}")
@@ -27,6 +32,7 @@ def write_file_csv(path : str, data : list) -> None:
 
 
 def merge_files(path_1 : str = PATH + file_to_read_1, path_2 : str = PATH + file_to_read_2) -> None:
+    global successes, failures, merge_percent, merge_headers
     print()
     input("---------- Merging Files ----------")
     print()
@@ -49,6 +55,7 @@ def merge_files(path_1 : str = PATH + file_to_read_1, path_2 : str = PATH + file
     headers_to_merge_alias : list[str] = ["rotten_tomatoes_rating_%", "audience_rating_%"]
 
     headers = headers + headers_to_merge_alias
+    merge_headers = headers
     
     input(f"Adding headers from dataset 1: {headers_to_merge} as: {headers_to_merge_alias}")
     
@@ -100,11 +107,18 @@ def merge_files(path_1 : str = PATH + file_to_read_1, path_2 : str = PATH + file
     
     write_file_csv(PATH + "movie_data.csv", data_merge)
 
+    successes = success_count
+    failures = fail_count
+    merge_percent = (success_count / (success_count + fail_count) * 100.0)
     input(f"Successfully merged {success_count} movies.")
     input(f"Failed to merge {fail_count} movies.")
-    input(f"Success rate: {(success_count / (success_count + fail_count) * 100.0):.2f}%")
+    input(f"Success rate: {merge_percent:.2f}%")
     input("Note that these values may include duplicates and/or missing values. Those will be removed in the file cleaning process.")
     print("--------------------")
+
+
+def get_merge_stats() -> tuple[int, int, float, list[str]]:
+    return (successes, failures, merge_percent, merge_headers)
 
 
 if __name__ == "__main__":
