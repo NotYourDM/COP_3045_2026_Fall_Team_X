@@ -35,9 +35,9 @@ def merge_files(path_1 : str, path_2 : str) -> None:
     # This file merge system basically takes all the properties that exist in the larger dataset 2, and adds the corresponding dataset 1's
     # rating information.
 
-    headers : list[str] = ["index", "budget", "genres", "homepage", "id", "keywords", "original_language", "original_title", 
+    headers : list[str] = ["index", "budget", "genres", "id", "original_language", "original_title", 
                "overview", "popularity", "production_companies", "production_countries", "release_date", "revenue", "runtime", 
-               "spoken_languages", "status", "tagline", "title", "vote_average", "vote_count", "cast", "crew", "director"]
+               "spoken_languages", "status", "title", "vote_average", "vote_count", "cast", "crew", "director"]
 
     # Headers_to_merge must be the name of the actual headers in dataset 1.
     # The alias will be the new header names assigned in the merged dataset.
@@ -96,7 +96,7 @@ def merge_files(path_1 : str, path_2 : str) -> None:
     input(f"Successfully merged {success_count} movies.")
     input(f"Failed to merge {fail_count} movies.")
     input(f"Success rate: {(success_count / (success_count + fail_count) * 100.0):.2f}%")
-    input("Note that these values may include duplicates. Those will be removed in the file cleaning process.")
+    input("Note that these values may include duplicates and/or missing values. Those will be removed in the file cleaning process.")
 
 
 if __name__ == "__main__":
