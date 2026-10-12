@@ -44,12 +44,14 @@ def make_plots(df : pandas.DataFrame) -> None:
             tick_trim = int(input("Enter tick trimming factor (whole number greater than 0): "))
         except:
             print("This input does not appear to be a number.")
+            continue
         if tick_trim <= 0:
             print("This input appears to be less than or equal to 0")
 
     # boxplot_choose_genres(df)
     boxplot.set_xticks(ticks=boxplot.get_xticks()[::tick_trim], rotation=45, horizontalalignment="right", labels=boxplot.get_xticklabels()[::tick_trim])
 
+    print("Packing and displaying plots...")
     plt.tight_layout()
     plt.show()
     print("--------------------")
