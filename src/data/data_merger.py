@@ -1,8 +1,8 @@
-import os
 import csv
-from typing import Literal
 
 PATH = "src/data/"
+file_to_read_1 = "movie_ratings.csv"
+file_to_read_2 = "movie_info.csv"
 
 
 def read_file(path : str) -> list:
@@ -26,11 +26,12 @@ def write_file_csv(path : str, data : list) -> None:
     input(f"Wrote merged data to {path}")
 
 
-def merge_files(path_1 : str, path_2 : str) -> None:
+def merge_files(path_1 : str = PATH + file_to_read_1, path_2 : str = PATH + file_to_read_2) -> None:
+    print()
+    input("---------- Merging Files ----------")
+    print()
     data_1 : list = read_file(path_1)
     data_2 : list = read_file(path_2)
-
-    input("Matching movies...")
 
     # This file merge system basically takes all the properties that exist in the larger dataset 2, and adds the corresponding dataset 1's
     # rating information.
@@ -38,6 +39,8 @@ def merge_files(path_1 : str, path_2 : str) -> None:
     headers : list[str] = ["index", "budget", "genres", "id", "original_language", "original_title", 
                "overview", "popularity", "production_companies", "production_countries", "release_date", "revenue", "runtime", 
                "spoken_languages", "status", "title", "vote_average", "vote_count", "cast", "crew", "director"]
+
+    input(f"Pulling headers from dataset 2: {headers}")
 
     # Headers_to_merge must be the name of the actual headers in dataset 1.
     # The alias will be the new header names assigned in the merged dataset.
@@ -47,10 +50,14 @@ def merge_files(path_1 : str, path_2 : str) -> None:
 
     headers = headers + headers_to_merge_alias
     
+    input(f"Adding headers from dataset 1: {headers_to_merge} as: {headers_to_merge_alias}")
+    
     data_merge : list = []
 
     success_count : int = 0
     fail_count : int = 0
+
+    input("Matching movies...")
 
     for movie_1 in data_1:
         movie_1_name = (movie_1["Film"].strip()).lower()
@@ -97,12 +104,10 @@ def merge_files(path_1 : str, path_2 : str) -> None:
     input(f"Failed to merge {fail_count} movies.")
     input(f"Success rate: {(success_count / (success_count + fail_count) * 100.0):.2f}%")
     input("Note that these values may include duplicates and/or missing values. Those will be removed in the file cleaning process.")
+    print("--------------------")
 
 
 if __name__ == "__main__":
-    print("Files to merge: ")
-    file_to_read_1 = "movie_ratings.csv"
-    file_to_read_2 = "movie_info.csv"
-    merge_files(PATH + file_to_read_1, PATH + file_to_read_2)
+    merge_files()
 
 
