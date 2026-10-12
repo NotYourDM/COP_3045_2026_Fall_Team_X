@@ -18,7 +18,9 @@ def print_df_issues(df: pandas.DataFrame) -> None:
     input("---------- Checking File Cleanliness ----------")
     print()
     input(f"Missing values:\n{df.isna().sum()}")
+    print()
     input(f"Duplicated rows:\n{df.duplicated().sum()}")
+    print()
     input(f"Data types:\n{df.dtypes}")
     print("--------------------")
 

@@ -26,8 +26,13 @@ def make_pdf(path : str, df : pandas.DataFrame, include : dict[str, bool]) -> No
         pdf.cell(0, 30, "Data Cleanliness Report")
         pdf.ln(5)
 
-        df_to_pdf_table(df, pdf, "", 5, 70)
+        clean_check = pandas.DataFrame( 
+            (["Total Rows", "Total Columns", "Duplicate Rows", "Missing Values"], 
+             [df.shape[0], df.shape[1], df.duplicated().sum(), df.isna().sum().sum()])
+        )
 
+        df_to_pdf_table(clean_check, pdf, "", 5, 70)
+        pdf.add_page()
         input("Cleanliness complete.")
 
     if include["summary"]:
@@ -75,8 +80,8 @@ def make_pdf(path : str, df : pandas.DataFrame, include : dict[str, bool]) -> No
         pdf.cell(0, 25, "Visualizations")
         pdf.ln(5)
         pdf.image(PATH + "revenue_dist.png", x=10, y=40, w=180)
-        pdf.image(PATH + "budget_vs_revenue.png", x=10, y=130, w=180)
-        pdf.image(PATH + "genres_vs_ratings.png", x=10, y=210, w=180)
+        pdf.image(PATH + "budget_vs_revenue.png", x=10, y=125, w=180)
+        pdf.image(PATH + "genres_vs_ratings.png", x=10, y=170, w=190)
         input("Visuals complete.")
 
     print(f"Outputting to... {PATH+path}")
