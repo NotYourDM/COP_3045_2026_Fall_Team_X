@@ -17,19 +17,27 @@ def make_pdf(path : str, df : pandas.DataFrame, include : dict[str, bool]) -> No
     pdf.cell(0, 12, "Movie Statistics - Automated Report", ln=True, align='C')
     pdf.ln(10)
 
-    row_count, column_count = df.shape
-
-    if include['merge']:
+    if include["merge"]:
         pass
 
-    if include['clean']:
-        pass
+    if include["clean"]:
+        input("Adding cleanliness report...")
+        pdf.set_font("Times", "B", 15)
+        pdf.cell(0, 30, "Data Cleanliness Report")
+        pdf.ln(5)
+
+        df_to_pdf_table(df, pdf, "", 5, 70)
+
+        input("Cleanliness complete.")
 
     if include["summary"]:
         input("Adding summary statistics...")
-        pdf.cell(0, 10, "Summary Statistics")
+        pdf.set_font("Times", "B", 15)
+        pdf.cell(0, 30, "Summary Statistics")
         pdf.ln(5)
-        pdf.cell(0, 100, str(df.describe()), 1)
+
+        pdf.set_font("Times", "", 9)
+        df_to_pdf_table(df.describe(), pdf, "", 5, 70)
         pdf.add_page()
         input("Summary complete.")
 
@@ -52,7 +60,7 @@ def make_pdf(path : str, df : pandas.DataFrame, include : dict[str, bool]) -> No
         plt.savefig(PATH + "budget_vs_revenue.png")
         plt.close()
     
-        plt.figure(figsize=(25, 8))
+        plt.figure(figsize=(25, 15))
         sns.boxplot(data=df, x="genres", y="audience_rating_%")
         plt.title("Genres vs Audience Rating %")
     
@@ -63,20 +71,30 @@ def make_pdf(path : str, df : pandas.DataFrame, include : dict[str, bool]) -> No
         plt.savefig(PATH + "genres_vs_ratings.png")
         plt.close()
 
-        pdf.cell(0, 10, "Visualizations")
+        pdf.set_font("Times", "B", 15)
+        pdf.cell(0, 25, "Visualizations")
         pdf.ln(5)
-        pdf.image(PATH + "revenue_dist.png", x=10, y=10, w=180)
-        pdf.image(PATH + "budget_vs_revenue.png", x=10, y=200, w=180)
-        
-        pdf.add_page()
-        pdf.image(PATH + "genres_vs_ratings.png", x=10, y=10, w=180)
+        pdf.image(PATH + "revenue_dist.png", x=10, y=40, w=180)
+        pdf.image(PATH + "budget_vs_revenue.png", x=10, y=130, w=180)
+        pdf.image(PATH + "genres_vs_ratings.png", x=10, y=210, w=180)
         input("Visuals complete.")
 
-    print(f"Outputting to... {PATH}project_report.pdf")
-    pdf.output(PATH + "project_report.pdf")
+    print(f"Outputting to... {PATH+path}")
+    pdf.output(PATH + path)
 
     print("--------------------")
 
+def df_to_pdf_table(df : pandas.DataFrame, pdf : FPDF, name : str = "", x : int = -1, y : int = -1) -> None:
+    df = df.round(2).rename_axis(name).reset_index()
+    rows = [df.columns.astype(str).tolist()]
+    rows += df.astype(str).values.tolist()
 
+    if (x != -1) and (y != -1):
+        pdf.set_xy(x, y)
     
+    with pdf.table(text_align="CENTER") as table:
+        for df_row in rows:
+            row = table.row()
+            for value in df_row:
+                row.cell(value)
 
