@@ -1,0 +1,72 @@
+                                         ___    
+ |\  /|                                 /   \  |
+ | \/ |   __     _   __    __     |    |       |   __    __    |__ 
+ |    |  /__\  |/   |__|  /__\  --|--  |       |  /__\  /  \   |  | 
+ |    |  \__   |    __/   \__     |     \___/  |  \__   \__/\  |  |
+ ------------------------------------------------------------------
+
+(This file contains information on the file merging + cleaning process)
+
+
+Phase I: Unmerged
+-----------------------------
+
+I think the file merging process can be separated into three stages:
+
+1. "Normalize" the data:
+In STEM, 'normalizing' tends to mean putting something in a consistent format. 
+When we put both datasets in the same format, connecting them should be much easier,
+
+2. Find patterns,
+This step is simplest. We just have to find whatever the connection is between the datasets in order to merge them.
+
+3. Combine data by writing to a new file,
+Modifying old files to combine the data is messy.
+There's a reason we use an intermediary variable when we want to exchange the values in two other variables.
+I intend to make a separate python script to create a new file using data from the old files.
+
+At this stage, I have already noticed that names could be a connecting factor for the datasets.
+We will have to "normalize" the name structure before we can connect them, first.
+(for example, some datasets combine movie titles with release year, or do the whole 'Lastname, Firstname' structure.)
+
+
+Phase II: Merging
+-----------------------------
+
+1. "Normalizing"
+* Named both files using snake_case and made the names more distinctive,
+* Converted the {.xls} into a {.csv} file so they would be the same type,
+I could technically make everything consistent by hand, but I realize it would be simplest to have {data_merger.py} normalize the data for me.
+
+2. Patterns
+The name alone might not be enough to correctly compare both files. I think both the name and the year, however, would be sufficient.
+{movie_info.csv} doesn't provide the year alone (instead giving YYYY-MM-DD), 
+  so we have to splice the string it does provide for the first four characters in order to get it.
+
+3. Combination
+Ironically, I think it would be easiest to make the merged file a {.json} instead of a {.csv} becasue I have more experience with {.json}, 
+  and I know it can be converted very easily / directly into a Python list or dictionary.
+
+Although for consistency I'll have it be made to create {.csv} merged file.
+
+A very rudimentary data merger was created in {data_merger.py}.
+I did end up throwing away the 'matching year' check as at least one element in dataset 2 is missing its release_date.
+As of the time of writing, it was able to pair 478 movies out of the 562 total in dataset 1 (85% succeeded).
+Dataset 2 has ~4500 movies (so only ~10% succeeded), but since dataset 2 has so much more than dataset 1 this percentage isn't really relevant.
+
+Unfortunately, {data_merger.py} is hardcoded, meaning the actual python file would have to be changed to make checking other csv files for merges possible, 
+  but for the sake of this one short project instance this is fine.
+
+
+Part III: Cleaning
+-----------------------------
+
+I think I made a mistake in that I may have been referring to the data merging process as "cleaning". I am sorry if this caused confusion.
+To be clear, I now understand the previous two sections were actually referring solely to merging, and now this section can actually focus on cleaning for real.
+
+What I should be doing next is putting this merged data into a pandas df (DataFrame), then checking that for missing or duplicate values. 
+Once the data is finally, actually clean, it can be processed into visualizers and analyzed for statistics or trends.
+
+{data_cleaner.py} is being written as to actually clean this data.
+
+
